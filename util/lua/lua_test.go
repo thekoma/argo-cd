@@ -324,7 +324,7 @@ func TestGetResourceActionDiscoveryNoPredefined(t *testing.T) {
 	vm := VM{}
 	discoveryLua, err := vm.GetResourceActionDiscovery(testObj)
 	require.NoError(t, err)
-	assert.Equal(t, discoveryLua[0], "")
+	assert.Equal(t, "", discoveryLua[0])
 }
 
 func TestGetResourceActionDiscoveryWithOverride(t *testing.T) {
@@ -376,6 +376,27 @@ func TestExecuteResourceActionDiscovery(t *testing.T) {
 	testObj := StrToUnstructured(objJSON)
 	vm := VM{}
 	actions, err := vm.ExecuteResourceActionDiscovery(testObj, []string{validDiscoveryLua})
+	require.NoError(t, err)
+	expectedActions := []appv1.ResourceAction{
+		{
+			Name: "resume",
+		}, {
+			Name: "scale",
+			Params: []appv1.ResourceActionParam{{
+				Name: "replicas",
+				Type: "number",
+			}},
+		},
+	}
+	for _, expectedAction := range expectedActions {
+		assert.Contains(t, actions, expectedAction)
+	}
+}
+
+func TestExecuteResourceActionDiscoveryWithDuplicationActions(t *testing.T) {
+	testObj := StrToUnstructured(objJSON)
+	vm := VM{}
+	actions, err := vm.ExecuteResourceActionDiscovery(testObj, []string{validDiscoveryLua, validDiscoveryLua})
 	require.NoError(t, err)
 	expectedActions := []appv1.ResourceAction{
 		{
