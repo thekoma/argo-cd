@@ -317,7 +317,7 @@ func (vm VM) ExecuteResourceActionDiscovery(obj *unstructured.Unstructured, scri
 
 				err = json.Unmarshal(resourceActionBytes, &resourceAction)
 				if err != nil {
-					return nil, fmt.Errorf("error marshaling resource action: %w", err)
+					return nil, fmt.Errorf("error unmarshaling resource action: %w", err)
 				}
 				availableActions = append(availableActions, resourceAction)
 			}
