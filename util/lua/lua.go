@@ -383,7 +383,7 @@ func (vm VM) GetResourceActionDiscovery(obj *unstructured.Unstructured) ([]strin
 	discoveryKey := fmt.Sprintf("%s/actions/", key)
 	discoveryScript, err := vm.getPredefinedLuaScripts(discoveryKey, actionDiscoveryScriptFile)
 	if err != nil {
-		return nil, fmt.Errorf("error while fetching pre defined lua scripts: %w", err)
+		return nil, fmt.Errorf("error while fetching predefined lua scripts: %w", err)
 	}
 
 	discoveryScripts = append(discoveryScripts, discoveryScript)
