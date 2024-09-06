@@ -298,7 +298,7 @@ func (vm VM) ExecuteResourceActionDiscovery(obj *unstructured.Unstructured, scri
 			actionsMap := make(map[string]interface{})
 			err = json.Unmarshal(jsonBytes, &actionsMap)
 			if err != nil {
-				return nil, fmt.Errorf("error marshaling resource action: %w", err)
+				return nil, fmt.Errorf("error unmarshaling action table: %w", err)
 			}
 			for key, value := range actionsMap {
 				resourceAction := appv1.ResourceAction{Name: key, Disabled: isActionDisabled(value)}
